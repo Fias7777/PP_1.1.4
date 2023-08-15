@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class UserDaoHibernateImpl implements UserDao {
+public class  UserDaoHibernateImpl implements UserDao {
     public UserDaoHibernateImpl() {
 
     }
@@ -22,10 +22,10 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
         try(Session session = Util.getHibernateSession()) {
             transaction = session.beginTransaction();
-            session.createSQLQuery("CREATE TABLE IF NOT EXISTS `customer`.`user` (\n" +
+            session.createSQLQuery("CREATE TABLE IF NOT EXISTS users (\n" +
                     "  `id` INT NOT NULL auto_increment primary key,\n" +
                     "  `name` VARCHAR(45) NULL,\n" +
-                    "  `lastName` VARCHAR(45) NULL,\n" +
+                    "  `last_name` VARCHAR(45) NULL,\n" +
                     "  `age` INT NULL,\n" +
                     "  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);").executeUpdate();
 
@@ -40,7 +40,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
         try(Session session = Util.getHibernateSession()) {
             transaction = session.beginTransaction();
-            session.createSQLQuery("DROP TABLE IF EXISTS `customer`.`user`;");
+            session.createSQLQuery("DROP TABLE IF EXISTS users").executeUpdate();
 
             transaction.commit();
         } catch (Exception ex) {
@@ -70,8 +70,8 @@ public class UserDaoHibernateImpl implements UserDao {
             User user = session.get(User.class, id);
             if (user != null) {
                 session.delete(user);
+                transaction.commit();
             }
-            transaction.commit();
         } catch (Exception ex) {
             ofNullable(transaction).ifPresent(Transaction::rollback);
         }
