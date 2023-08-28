@@ -16,7 +16,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS `customer`.`user` (\n" +
+        String sql = "CREATE TABLE IF NOT EXISTS `customer`.`users` (\n" +
                 "  `id` INT NOT NULL auto_increment primary key,\n" +
                 "  `name` VARCHAR(45) NULL,\n" +
                 "  `lastName` VARCHAR(45) NULL,\n" +
@@ -33,7 +33,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
-        String sql = "DROP TABLE customer.user";
+        String sql = "DROP TABLE customer.users";
         try (
                 Connection connection = Util.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
@@ -45,7 +45,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        String sql = "INSERT INTO customer.user(name, lastName, age) values (?, ?, ?)";
+        String sql = "INSERT INTO customer.users(name, lastName, age) values (?, ?, ?)";
 
         try (
                 Connection connection = Util.getConnection();
@@ -61,7 +61,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        String sql = "DELETE FROM customer.user where id = ?;";
+        String sql = "DELETE FROM customer.users where id = ?;";
 
         try (
                 Connection connection = Util.getConnection();
@@ -76,7 +76,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM customer.user";
+        String sql = "SELECT * FROM customer.users";
 
         try (
                 Connection connection = Util.getConnection();
@@ -99,7 +99,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        String sql = "TRUNCATE TABLE customer.user;";
+        String sql = "TRUNCATE TABLE customer.users;";
         try (
                 Connection connection = Util.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
